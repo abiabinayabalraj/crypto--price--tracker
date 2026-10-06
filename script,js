@@ -1,0 +1,955 @@
+/* ==========================================
+   CRYPTO TRACK - SCRIPT.JS
+========================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* ==========================================
+       CRYPTO DATA
+    ========================================== */
+
+    let cryptoData = [
+        {
+            rank: 1,
+            name: "Bitcoin",
+            symbol: "BTC",
+            price: 67842.25,
+            change24h: 2.45,
+            change7d: 5.82,
+            marketCap: "1.34T",
+            volume: "28.42B",
+            icon: "₿"
+        },
+        {
+            rank: 2,
+            name: "Ethereum",
+            symbol: "ETH",
+            price: 3842.16,
+            change24h: 1.82,
+            change7d: 4.21,
+            marketCap: "462.21B",
+            volume: "15.83B",
+            icon: "Ξ"
+        },
+        {
+            rank: 3,
+            name: "Tether",
+            symbol: "USDT",
+            price: 1.00,
+            change24h: 0.01,
+            change7d: 0.02,
+            marketCap: "112.41B",
+            volume: "42.61B",
+            icon: "₮"
+        },
+        {
+            rank: 4,
+            name: "BNB",
+            symbol: "BNB",
+            price: 612.45,
+            change24h: 3.21,
+            change7d: 7.13,
+            marketCap: "91.42B",
+            volume: "1.82B",
+            icon: "◆"
+        },
+        {
+            rank: 5,
+            name: "Solana",
+            symbol: "SOL",
+            price: 178.92,
+            change24h: 5.67,
+            change7d: 12.41,
+            marketCap: "82.31B",
+            volume: "3.42B",
+            icon: "S"
+        },
+        {
+            rank: 6,
+            name: "XRP",
+            symbol: "XRP",
+            price: 0.592,
+            change24h: -1.24,
+            change7d: -2.18,
+            marketCap: "32.14B",
+            volume: "1.42B",
+            icon: "X"
+        },
+        {
+            rank: 7,
+            name: "USD Coin",
+            symbol: "USDC",
+            price: 1.00,
+            change24h: 0.02,
+            change7d: 0.03,
+            marketCap: "31.82B",
+            volume: "4.81B",
+            icon: "$"
+        },
+        {
+            rank: 8,
+            name: "Cardano",
+            symbol: "ADA",
+            price: 0.452,
+            change24h: 2.14,
+            change7d: 4.82,
+            marketCap: "16.21B",
+            volume: "421M",
+            icon: "A"
+        },
+        {
+            rank: 9,
+            name: "Dogecoin",
+            symbol: "DOGE",
+            price: 0.142,
+            change24h: 4.82,
+            change7d: 8.31,
+            marketCap: "20.82B",
+            volume: "1.21B",
+            icon: "Ð"
+        },
+        {
+            rank: 10,
+            name: "Avalanche",
+            symbol: "AVAX",
+            price: 38.72,
+            change24h: -0.84,
+            change7d: -1.43,
+            marketCap: "15.21B",
+            volume: "382M",
+            icon: "A"
+        }
+    ];
+
+
+    /* ==========================================
+       FORMAT CURRENCY
+    ========================================== */
+
+    function formatPrice(price) {
+
+        if (price < 1) {
+            return "$" + price.toFixed(3);
+        }
+
+        return "$" + price.toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+    }
+
+
+    /* ==========================================
+       CREATE CRYPTO TABLE
+    ========================================== */
+
+    function renderCryptoTable(data = cryptoData) {
+
+        const tableBody =
+            document.querySelector("#cryptoTableBody");
+
+        if (!tableBody) return;
+
+        tableBody.innerHTML = "";
+
+        data.forEach((coin) => {
+
+            const changeClass =
+                coin.change24h >= 0
+                    ? "positive"
+                    : "negative";
+
+            const changeSymbol =
+                coin.change24h >= 0
+                    ? "↑"
+                    : "↓";
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+
+                <td>
+                    ${coin.rank}
+                </td>
+
+                <td>
+                    <div class="coin">
+
+                        <div class="coin-icon">
+                            ${coin.icon}
+                        </div>
+
+                        <div>
+                            <div class="coin-name">
+                                ${coin.name}
+                            </div>
+
+                            <div class="coin-symbol">
+                                ${coin.symbol}
+                            </div>
+                        </div>
+
+                    </div>
+                </td>
+
+                <td>
+                    <strong>
+                        ${formatPrice(coin.price)}
+                    </strong>
+                </td>
+
+                <td>
+                    <span class="change ${changeClass}">
+                        ${changeSymbol}
+                        ${Math.abs(coin.change24h)}%
+                    </span>
+                </td>
+
+                <td>
+                    <span class="change ${
+                        coin.change7d >= 0
+                            ? "positive"
+                            : "negative"
+                    }">
+                        ${coin.change7d >= 0 ? "↑" : "↓"}
+                        ${Math.abs(coin.change7d)}%
+                    </span>
+                </td>
+
+                <td>
+                    $${coin.marketCap}
+                </td>
+
+                <td>
+                    $${coin.volume}
+                </td>
+
+                <td>
+                    <span class="mini-chart">
+                        ╱╲╱╲╱╲
+                    </span>
+                </td>
+
+                <td>
+                    <button
+                        class="btn btn-secondary view-coin"
+                        data-symbol="${coin.symbol}">
+                        View
+                    </button>
+                </td>
+
+            `;
+
+            tableBody.appendChild(row);
+        });
+
+        addViewButtons();
+    }
+
+
+    /* ==========================================
+       VIEW COIN
+    ========================================== */
+
+    function addViewButtons() {
+
+        const buttons =
+            document.querySelectorAll(".view-coin");
+
+        buttons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const symbol =
+                    button.dataset.symbol;
+
+                const coin =
+                    cryptoData.find(
+                        item => item.symbol === symbol
+                    );
+
+                if (!coin) return;
+
+                alert(
+                    `${coin.name} (${coin.symbol})\n\n` +
+                    `Price: ${formatPrice(coin.price)}\n` +
+                    `24h Change: ${coin.change24h}%\n` +
+                    `7d Change: ${coin.change7d}%\n` +
+                    `Market Cap: $${coin.marketCap}`
+                );
+            });
+        });
+    }
+
+
+    /* ==========================================
+       SEARCH CRYPTO
+    ========================================== */
+
+    const searchInput =
+        document.querySelector("#cryptoSearch");
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            (event) => {
+
+                const query =
+                    event.target.value
+                        .toLowerCase()
+                        .trim();
+
+                const filtered =
+                    cryptoData.filter(coin =>
+                        coin.name
+                            .toLowerCase()
+                            .includes(query) ||
+
+                        coin.symbol
+                            .toLowerCase()
+                            .includes(query)
+                    );
+
+                renderCryptoTable(filtered);
+            }
+        );
+    }
+
+
+    /* ==========================================
+       SORT BY PRICE
+    ========================================== */
+
+    const sortPrice =
+        document.querySelector("#sortPrice");
+
+    if (sortPrice) {
+
+        sortPrice.addEventListener(
+            "change",
+            (event) => {
+
+                const value =
+                    event.target.value;
+
+                let sorted = [...cryptoData];
+
+                if (value === "high") {
+
+                    sorted.sort(
+                        (a, b) =>
+                            b.price - a.price
+                    );
+
+                }
+
+                if (value === "low") {
+
+                    sorted.sort(
+                        (a, b) =>
+                            a.price - b.price
+                    );
+
+                }
+
+                if (value === "change") {
+
+                    sorted.sort(
+                        (a, b) =>
+                            b.change24h -
+                            a.change24h
+                    );
+                }
+
+                renderCryptoTable(sorted);
+            }
+        );
+    }
+
+
+    /* ==========================================
+       REFRESH DATA
+    ========================================== */
+
+    const refreshButton =
+        document.querySelector(".btn-primary");
+
+    if (refreshButton) {
+
+        refreshButton.addEventListener(
+            "click",
+            () => {
+
+                refreshButton.innerHTML =
+                    "⟳ Updating...";
+
+                refreshButton.disabled = true;
+
+                setTimeout(() => {
+
+                    simulatePriceUpdate();
+
+                    renderCryptoTable();
+
+                    refreshButton.innerHTML =
+                        "↻ Refresh Data";
+
+                    refreshButton.disabled = false;
+
+                    updateTimestamp();
+
+                }, 1000);
+            }
+        );
+    }
+
+
+    /* ==========================================
+       SIMULATE PRICE UPDATE
+    ========================================== */
+
+    function simulatePriceUpdate() {
+
+        cryptoData.forEach(coin => {
+
+            const movement =
+                (Math.random() - 0.5) * 0.02;
+
+            coin.price =
+                coin.price *
+                (1 + movement);
+
+        });
+    }
+
+
+    /* ==========================================
+       UPDATE TIMESTAMP
+    ========================================== */
+
+    function updateTimestamp() {
+
+        const element =
+            document.querySelector(
+                "#lastUpdated"
+            );
+
+        if (!element) return;
+
+        const now =
+            new Date();
+
+        element.textContent =
+            "Updated " +
+            now.toLocaleTimeString();
+    }
+
+
+    /* ==========================================
+       MOBILE SIDEBAR
+    ========================================== */
+
+    const mobileMenu =
+        document.querySelector(".mobile-menu");
+
+    const sidebar =
+        document.querySelector(".sidebar");
+
+    if (mobileMenu && sidebar) {
+
+        mobileMenu.addEventListener(
+            "click",
+            () => {
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+            }
+        );
+    }
+
+
+    /* ==========================================
+       SIDEBAR NAVIGATION
+    ========================================== */
+
+    const navItems =
+        document.querySelectorAll(".nav-item");
+
+    navItems.forEach(item => {
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                navItems.forEach(
+                    nav =>
+                        nav.classList.remove(
+                            "active"
+                        )
+                );
+
+                item.classList.add("active");
+
+                if (window.innerWidth <= 900) {
+
+                    sidebar?.classList.remove(
+                        "open"
+                    );
+                }
+            }
+        );
+    });
+
+
+    /* ==========================================
+       CHART TIMEFRAME
+    ========================================== */
+
+    const timeButtons =
+        document.querySelectorAll(".time-btn");
+
+    timeButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                timeButtons.forEach(btn =>
+                    btn.classList.remove(
+                        "active"
+                    )
+                );
+
+                button.classList.add("active");
+
+                updateChart(
+                    button.textContent
+                );
+            }
+        );
+    });
+
+
+    /* ==========================================
+       SIMPLE CHART
+    ========================================== */
+
+    function updateChart(timeframe) {
+
+        const chart =
+            document.querySelector(".chart-line");
+
+        if (!chart) return;
+
+        const points = generatePoints();
+
+        chart.innerHTML = "";
+
+        const width = 800;
+        const height = 300;
+
+        const svgNS =
+            "http://www.w3.org/2000/svg";
+
+        const svg =
+            document.createElementNS(
+                svgNS,
+                "svg"
+            );
+
+        svg.setAttribute(
+            "viewBox",
+            `0 0 ${width} ${height}`
+        );
+
+        svg.setAttribute(
+            "width",
+            "100%"
+        );
+
+        svg.setAttribute(
+            "height",
+            "100%"
+        );
+
+        /* Grid */
+
+        for (
+            let i = 0;
+            i < 5;
+            i++
+        ) {
+
+            const line =
+                document.createElementNS(
+                    svgNS,
+                    "line"
+                );
+
+            const y =
+                i * 60;
+
+            line.setAttribute(
+                "x1",
+                "0"
+            );
+
+            line.setAttribute(
+                "x2",
+                width
+            );
+
+            line.setAttribute(
+                "y1",
+                y
+            );
+
+            line.setAttribute(
+                "y2",
+                y
+            );
+
+            line.setAttribute(
+                "stroke",
+                "#1f2937"
+            );
+
+            line.setAttribute(
+                "stroke-width",
+                "1"
+            );
+
+            svg.appendChild(line);
+        }
+
+
+        /* Chart line */
+
+        const polyline =
+            document.createElementNS(
+                svgNS,
+                "polyline"
+            );
+
+        const coordinates =
+            points.map(
+                (value, index) => {
+
+                    const x =
+                        index *
+                        (width /
+                            (points.length - 1));
+
+                    const y =
+                        height -
+                        value;
+
+                    return `${x},${y}`;
+                }
+            ).join(" ");
+
+
+        polyline.setAttribute(
+            "points",
+            coordinates
+        );
+
+        polyline.setAttribute(
+            "fill",
+            "none"
+        );
+
+        polyline.setAttribute(
+            "stroke",
+            "#3b82f6"
+        );
+
+        polyline.setAttribute(
+            "stroke-width",
+            "4"
+        );
+
+        polyline.setAttribute(
+            "stroke-linecap",
+            "round"
+        );
+
+        polyline.setAttribute(
+            "stroke-linejoin",
+            "round"
+        );
+
+        svg.appendChild(polyline);
+
+        chart.appendChild(svg);
+
+        console.log(
+            `Chart changed to ${timeframe}`
+        );
+    }
+
+
+    function generatePoints() {
+
+        let value = 150;
+
+        const points = [];
+
+        for (
+            let i = 0;
+            i < 30;
+            i++
+        ) {
+
+            value +=
+                (Math.random() - 0.45) *
+                45;
+
+            value =
+                Math.max(
+                    30,
+                    Math.min(
+                        270,
+                        value
+                    )
+                );
+
+            points.push(value);
+        }
+
+        return points;
+    }
+
+
+    /* ==========================================
+       WATCHLIST
+    ========================================== */
+
+    let watchlist = [
+        "BTC",
+        "ETH",
+        "SOL"
+    ];
+
+    function renderWatchlist() {
+
+        const container =
+            document.querySelector(
+                "#watchlist"
+            );
+
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        watchlist.forEach(symbol => {
+
+            const coin =
+                cryptoData.find(
+                    item =>
+                        item.symbol === symbol
+                );
+
+            if (!coin) return;
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "watch-item";
+
+            div.innerHTML = `
+
+                <div class="coin">
+
+                    <div class="coin-icon">
+                        ${coin.icon}
+                    </div>
+
+                    <div>
+                        <div class="coin-name">
+                            ${coin.name}
+                        </div>
+
+                        <div class="coin-symbol">
+                            ${coin.symbol}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div>
+                    <strong>
+                        ${formatPrice(coin.price)}
+                    </strong>
+
+                    <div class="change ${
+                        coin.change24h >= 0
+                            ? "positive"
+                            : "negative"
+                    }">
+                        ${coin.change24h >= 0 ? "+" : ""}
+                        ${coin.change24h}%
+                    </div>
+                </div>
+
+                <span
+                    class="favorite"
+                    data-symbol="${coin.symbol}">
+                    ★
+                </span>
+
+            `;
+
+            container.appendChild(div);
+        });
+
+
+        document
+            .querySelectorAll(".favorite")
+            .forEach(star => {
+
+                star.addEventListener(
+                    "click",
+                    () => {
+
+                        const symbol =
+                            star.dataset.symbol;
+
+                        watchlist =
+                            watchlist.filter(
+                                item =>
+                                    item !== symbol
+                            );
+
+                        renderWatchlist();
+                    }
+                );
+            });
+    }
+
+
+    /* ==========================================
+       PRICE ALERTS
+    ========================================== */
+
+    const alertButton =
+        document.querySelector(
+            "#createAlert"
+        );
+
+    if (alertButton) {
+
+        alertButton.addEventListener(
+            "click",
+            () => {
+
+                const coin =
+                    prompt(
+                        "Enter cryptocurrency symbol:",
+                        "BTC"
+                    );
+
+                if (!coin) return;
+
+                const price =
+                    prompt(
+                        "Enter target price:"
+                    );
+
+                if (!price) return;
+
+                alert(
+                    `Price alert created!\n\n` +
+                    `${coin.toUpperCase()} ` +
+                    `target: $${price}`
+                );
+            }
+        );
+    }
+
+
+    /* ==========================================
+       CSV EXPORT
+    ========================================== */
+
+    const exportButton =
+        document.querySelector(
+            "#exportCSV"
+        );
+
+    if (exportButton) {
+
+        exportButton.addEventListener(
+            "click",
+            () => {
+
+                let csv =
+                    "Rank,Name,Symbol,Price,24h Change,7d Change,Market Cap,Volume\n";
+
+                cryptoData.forEach(coin => {
+
+                    csv +=
+                        `${coin.rank},` +
+                        `${coin.name},` +
+                        `${coin.symbol},` +
+                        `${coin.price},` +
+                        `${coin.change24h}%,` +
+                        `${coin.change7d}%,` +
+                        `${coin.marketCap},` +
+                        `${coin.volume}\n`;
+                });
+
+
+                const blob =
+                    new Blob(
+                        [csv],
+                        {
+                            type:
+                                "text/csv"
+                        }
+                    );
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+                link.href = url;
+
+                link.download =
+                    "crypto_data.csv";
+
+                link.click();
+
+                URL.revokeObjectURL(
+                    url
+                );
+            }
+        );
+    }
+
+
+    /* ==========================================
+       INITIALIZE
+    ========================================== */
+
+    renderCryptoTable();
+
+    renderWatchlist();
+
+    updateChart("24H");
+
+    updateTimestamp();
+
+});
