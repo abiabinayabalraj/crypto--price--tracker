@@ -1,39 +1,1363 @@
-Create a modern cryptocurrency tracking web application called “CryptoTrack”.
+<!DOCTYPE html>
+<html lang="en">
 
-Build the initial dashboard structure only.
+<head>
+    <meta charset="UTF-8">
 
-Design requirements:
-- Professional fintech/crypto dashboard
-- Dark theme
-- Background: #070B14
-- Cards: #111827
-- Primary accent: #3B82F6
-- Secondary accent: #8B5CF6
-- Green: #22C55E
-- Red: #EF4444
-- Font: Inter
-- Rounded corners: 14px
-- Clean spacing and strong visual hierarchy
-- Desktop width: 1440px
-- Responsive layout for tablet and mobile
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-Create:
-1. A fixed left sidebar approximately 240px wide.
-2. A main content area beside the sidebar.
-3. A top header inside the main content.
-4. A dashboard content area with cards and sections.
-5. A responsive mobile layout where the sidebar becomes a hamburger menu.
+    <title>CryptoTrack - Cryptocurrency Dashboard</title>
 
-Sidebar navigation:
-- CryptoTrack logo
-- Dashboard
-- Markets
-- Watchlist
-- Historical Data
-- Analytics
-- Price Alerts
-- Settings
+    <!-- Google Font -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-Highlight “Dashboard” as the active navigation item.
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-Do not add detailed charts or tables yet. Focus on creating a polished overall layout and visual design system.
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- ======================================
+         SIDEBAR
+    ======================================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ₿
+            </div>
+
+            <span>
+                CryptoTrack
+            </span>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <a
+                href="#"
+                class="nav-item active"
+            >
+                <span>▣</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="#markets"
+                class="nav-item"
+            >
+                <span>◈</span>
+                <span>Markets</span>
+            </a>
+
+
+            <a
+                href="#watchlist"
+                class="nav-item"
+            >
+                <span>★</span>
+                <span>Watchlist</span>
+            </a>
+
+
+            <a
+                href="#historical"
+                class="nav-item"
+            >
+                <span>◷</span>
+                <span>Historical Data</span>
+            </a>
+
+
+            <a
+                href="#analytics"
+                class="nav-item"
+            >
+                <span>▥</span>
+                <span>Analytics</span>
+            </a>
+
+
+            <a
+                href="#alerts"
+                class="nav-item"
+            >
+                <span>🔔</span>
+                <span>Price Alerts</span>
+            </a>
+
+
+            <a
+                href="#settings"
+                class="nav-item"
+            >
+                <span>⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <!-- Sidebar Bottom -->
+
+        <div
+            style="
+                margin-top:auto;
+                padding:15px;
+                background:#111827;
+                border-radius:12px;
+                border:1px solid #1f2937;
+            "
+        >
+
+            <div
+                style="
+                    font-size:12px;
+                    color:#94a3b8;
+                    margin-bottom:8px;
+                "
+            >
+                DATA COLLECTION
+            </div>
+
+            <div
+                style="
+                    color:#22c55e;
+                    font-size:13px;
+                    font-weight:600;
+                "
+            >
+                ● System Online
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ======================================
+         MAIN CONTENT
+    ======================================= -->
+
+    <main class="main">
+
+
+        <!-- ==================================
+             HEADER
+        =================================== -->
+
+        <header class="header">
+
+
+            <div class="header-left">
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                    "
+                >
+
+                    <button class="mobile-menu">
+                        ☰
+                    </button>
+
+                    <div>
+
+                        <h1>
+                            Cryptocurrency Market Overview
+                        </h1>
+
+                        <p>
+                            Track real-time cryptocurrency
+                            prices, market movements,
+                            and trends.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+
+                <!-- Search -->
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="cryptoSearch"
+                        placeholder="Search crypto..."
+                    >
+
+                </div>
+
+
+                <!-- Live Status -->
+
+                <div class="live-status">
+
+                    <span class="live-dot"></span>
+
+                    Live Data
+
+                </div>
+
+
+                <!-- Refresh -->
+
+                <button
+                    class="btn btn-primary"
+                >
+                    ↻ Refresh Data
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================
+             LAST UPDATED
+        =================================== -->
+
+        <div
+            style="
+                display:flex;
+                justify-content:flex-end;
+                margin-bottom:20px;
+                color:#64748b;
+                font-size:12px;
+            "
+        >
+
+            <span id="lastUpdated">
+                Updated just now
+            </span>
+
+        </div>
+
+
+
+        <!-- ==================================
+             STATISTICS
+        =================================== -->
+
+        <section class="stats-grid">
+
+
+            <!-- Market Cap -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <span class="stat-title">
+                        Total Market Cap
+                    </span>
+
+                    <div class="stat-icon">
+                        ◈
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    $2.48T
+                </div>
+
+                <span class="change positive">
+                    ↑ 2.34%
+                </span>
+
+            </div>
+
+
+            <!-- Volume -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <span class="stat-title">
+                        24h Trading Volume
+                    </span>
+
+                    <div class="stat-icon">
+                        ↗
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    $98.42B
+                </div>
+
+                <span class="change positive">
+                    ↑ 4.82%
+                </span>
+
+            </div>
+
+
+            <!-- Bitcoin Dominance -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <span class="stat-title">
+                        Bitcoin Dominance
+                    </span>
+
+                    <div class="stat-icon">
+                        ₿
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    52.4%
+                </div>
+
+                <span class="change positive">
+                    ↑ 0.82%
+                </span>
+
+            </div>
+
+
+            <!-- Active Coins -->
+
+            <div class="stat-card">
+
+                <div class="stat-header">
+
+                    <span class="stat-title">
+                        Active Cryptocurrencies
+                    </span>
+
+                    <div class="stat-icon">
+                        ◎
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    13,482
+                </div>
+
+                <span class="change positive">
+                    ↑ 124
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             CRYPTOCURRENCY MARKET
+        =================================== -->
+
+        <section
+            class="card"
+            id="markets"
+        >
+
+
+            <div class="card-header">
+
+
+                <div>
+
+                    <div class="card-title">
+                        Top 10 Cryptocurrencies
+                    </div>
+
+                    <div class="card-subtitle">
+                        Live market prices and performance
+                    </div>
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        gap:10px;
+                        align-items:center;
+                    "
+                >
+
+                    <select
+                        id="sortPrice"
+                        style="
+                            background:#0d1524;
+                            color:#fff;
+                            border:1px solid #1f2937;
+                            border-radius:8px;
+                            padding:9px;
+                        "
+                    >
+
+                        <option value="">
+                            Sort By
+                        </option>
+
+                        <option value="high">
+                            Highest Price
+                        </option>
+
+                        <option value="low">
+                            Lowest Price
+                        </option>
+
+                        <option value="change">
+                            24h Change
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="table-container">
+
+                <table class="crypto-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Rank
+                            </th>
+
+                            <th>
+                                Coin
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                24h Change
+                            </th>
+
+                            <th>
+                                7d Change
+                            </th>
+
+                            <th>
+                                Market Cap
+                            </th>
+
+                            <th>
+                                24h Volume
+                            </th>
+
+                            <th>
+                                Trend
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="cryptoTableBody">
+
+                        <!-- JavaScript inserts coins here -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             BITCOIN PRICE CHART
+        =================================== -->
+
+        <section class="card chart-card">
+
+
+            <div class="chart-header">
+
+
+                <div>
+
+                    <div class="card-title">
+                        Bitcoin Price
+                    </div>
+
+                    <div
+                        style="
+                            margin-top:8px;
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                        "
+                    >
+
+                        <span class="chart-price">
+                            $67,842.25
+                        </span>
+
+                        <span class="change positive">
+                            +2.45%
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="time-buttons">
+
+                    <button class="time-btn">
+                        1H
+                    </button>
+
+                    <button class="time-btn active">
+                        24H
+                    </button>
+
+                    <button class="time-btn">
+                        7D
+                    </button>
+
+                    <button class="time-btn">
+                        30D
+                    </button>
+
+                    <button class="time-btn">
+                        1Y
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart">
+
+                <div class="chart-line">
+                    <!-- JavaScript chart -->
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             GAINERS / LOSERS
+        =================================== -->
+
+        <section class="two-column">
+
+
+            <!-- Gainers -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Top Gainers
+                        </div>
+
+                        <div class="card-subtitle">
+                            Best performing coins
+                        </div>
+
+                    </div>
+
+                    <span
+                        class="positive"
+                    >
+                        ↑ Today
+                    </span>
+
+                </div>
+
+
+                <div class="coin-list">
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                S
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    Solana
+                                </div>
+
+                                <div class="coin-symbol">
+                                    SOL
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change positive"
+                        >
+                            +5.67%
+                        </div>
+
+                    </div>
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                Ð
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    Dogecoin
+                                </div>
+
+                                <div class="coin-symbol">
+                                    DOGE
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change positive"
+                        >
+                            +4.82%
+                        </div>
+
+                    </div>
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                ◆
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    BNB
+                                </div>
+
+                                <div class="coin-symbol">
+                                    BNB
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change positive"
+                        >
+                            +3.21%
+                        </div>
+
+                    </div>
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                ₿
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    Bitcoin
+                                </div>
+
+                                <div class="coin-symbol">
+                                    BTC
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change positive"
+                        >
+                            +2.45%
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Losers -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Top Losers
+                        </div>
+
+                        <div class="card-subtitle">
+                            Worst performing coins
+                        </div>
+
+                    </div>
+
+                    <span
+                        class="negative"
+                    >
+                        ↓ Today
+                    </span>
+
+                </div>
+
+
+                <div class="coin-list">
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                A
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    Avalanche
+                                </div>
+
+                                <div class="coin-symbol">
+                                    AVAX
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change negative"
+                        >
+                            -0.84%
+                        </div>
+
+                    </div>
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                X
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    XRP
+                                </div>
+
+                                <div class="coin-symbol">
+                                    XRP
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change negative"
+                        >
+                            -1.24%
+                        </div>
+
+                    </div>
+
+
+                    <div class="coin-row">
+
+                        <div class="coin-info">
+
+                            <div class="coin-icon">
+                                Ξ
+                            </div>
+
+                            <div>
+
+                                <div class="coin-name">
+                                    Ethereum
+                                </div>
+
+                                <div class="coin-symbol">
+                                    ETH
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="change negative"
+                        >
+                            -0.42%
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             WATCHLIST
+        =================================== -->
+
+        <section
+            class="card"
+            id="watchlist"
+        >
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        My Watchlist
+                    </div>
+
+                    <div class="card-subtitle">
+                        Monitor your favorite cryptocurrencies
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary">
+                    + Add Coin
+                </button>
+
+            </div>
+
+
+            <div
+                id="watchlist"
+                class="watchlist"
+            >
+
+                <!-- JavaScript inserts watchlist -->
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             DATA COLLECTION STATUS
+        =================================== -->
+
+        <section class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Data Collection Status
+                    </div>
+
+                    <div class="card-subtitle">
+                        Selenium scraper monitoring
+                    </div>
+
+                </div>
+
+                <div class="live-status">
+
+                    <span class="live-dot"></span>
+
+                    System Online
+
+                </div>
+
+            </div>
+
+
+            <div class="status-grid">
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Selenium WebDriver
+                    </div>
+
+                    <div class="status-value status-online">
+                        ● Connected
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        ChromeDriver
+                    </div>
+
+                    <div class="status-value status-online">
+                        ● Running
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Last Scrape
+                    </div>
+
+                    <div class="status-value">
+                        10 sec ago
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Records Collected
+                    </div>
+
+                    <div class="status-value">
+                        1,250
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        CSV Status
+                    </div>
+
+                    <div class="status-value status-online">
+                        ● Updated
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             HISTORICAL DATA
+        =================================== -->
+
+        <section
+            class="card"
+            id="historical"
+        >
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Historical Data
+                    </div>
+
+                    <div class="card-subtitle">
+                        Analyze cryptocurrency price history
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    id="exportCSV"
+                >
+                    ↓ Export CSV
+                </button>
+
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:
+                        repeat(3,1fr);
+                    gap:15px;
+                "
+            >
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Data Source
+                    </div>
+
+                    <div class="status-value">
+                        CoinMarketCap
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Collection
+                    </div>
+
+                    <div class="status-value">
+                        Automated
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Storage
+                    </div>
+
+                    <div class="status-value">
+                        CSV
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             PRICE ALERTS
+        =================================== -->
+
+        <section
+            class="card"
+            id="alerts"
+        >
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Price Alerts
+                    </div>
+
+                    <div class="card-subtitle">
+                        Create custom cryptocurrency alerts
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    id="createAlert"
+                >
+                    + Create Alert
+                </button>
+
+            </div>
+
+
+            <div
+                style="
+                    display:grid;
+                    grid-template-columns:
+                        repeat(3,1fr);
+                    gap:15px;
+                "
+            >
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Bitcoin
+                    </div>
+
+                    <div class="status-value">
+                        Above $70,000
+                    </div>
+
+                    <div
+                        class="positive"
+                        style="margin-top:8px;"
+                    >
+                        ● Active
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Ethereum
+                    </div>
+
+                    <div class="status-value">
+                        Below $3,500
+                    </div>
+
+                    <div
+                        class="positive"
+                        style="margin-top:8px;"
+                    >
+                        ● Active
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Solana
+                    </div>
+
+                    <div class="status-value">
+                        Above $200
+                    </div>
+
+                    <div
+                        style="
+                            color:#64748b;
+                            margin-top:8px;
+                        "
+                    >
+                        ● Inactive
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             ANALYTICS
+        =================================== -->
+
+        <section
+            class="card"
+            id="analytics"
+        >
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Market Analytics
+                    </div>
+
+                    <div class="card-subtitle">
+                        Cryptocurrency market insights
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="two-column"
+                style="margin-bottom:0;"
+            >
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Market Trend
+                    </div>
+
+                    <div
+                        class="status-value positive"
+                        style="font-size:22px;"
+                    >
+                        Bullish ↗
+                    </div>
+
+                </div>
+
+
+                <div class="status-item">
+
+                    <div class="status-label">
+                        Market Volatility
+                    </div>
+
+                    <div
+                        class="status-value"
+                        style="font-size:22px;"
+                    >
+                        Moderate
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================
+             FOOTER
+        =================================== -->
+
+        <footer class="footer">
+
+            <div
+                style="
+                    font-size:18px;
+                    font-weight:700;
+                    color:white;
+                    margin-bottom:8px;
+                "
+            >
+                ₿ CryptoTrack
+            </div>
+
+            <p>
+                Real-time cryptocurrency market monitoring
+            </p>
+
+            <p style="margin-top:10px;">
+                © 2026 CryptoTrack. All rights reserved.
+            </p>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+<!-- ======================================
+     JAVASCRIPT
+======================================= -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
